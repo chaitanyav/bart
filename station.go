@@ -76,7 +76,7 @@ func GetStationInfo(stationCode string) (*StationInfo, error){
 
 func GetStationAccessInfo(stationCode string) (*StationAccess, error){
   uri := fmt.Sprintf("http://api.bart.gov/api/stn.aspx?cmd=stnaccess&orig=%s&key=MW9S-E7SL-26DU-VV8V&l=1", stationCode)
-  resp, err := request.GetDataFromUri(uri)
+  resp, err := GetDataFromUri(uri)
   if err != nil {
     return nil, err
   }

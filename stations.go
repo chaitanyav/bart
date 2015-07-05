@@ -39,7 +39,7 @@ func (root *Root) String() string {
 }
 
 func GetStations() (*Root, error) {
-	resp, err := request.GetDataFromUri("http://api.bart.gov/api/stn.aspx?cmd=stns&key=MW9S-E7SL-26DU-VV8V")
+	resp, err := GetDataFromUri("http://api.bart.gov/api/stn.aspx?cmd=stns&key=MW9S-E7SL-26DU-VV8V")
   if err != nil {
     return nil, err
   }
