@@ -1,7 +1,6 @@
 package bart
 
 import (
-  "request"
   "fmt"
   "encoding/xml"
 )
@@ -47,7 +46,7 @@ type Station struct {
 
 func GetStationInfo(stationCode string) (*StationInfo, error){
   uri := fmt.Sprintf("http://api.bart.gov/api/stn.aspx?cmd=stninfo&orig=%s&key=MW9S-E7SL-26DU-VV8V", stationCode)
-  resp, err := request.GetDataFromUri(uri)
+  resp, err := GetDataFromUri(uri)
   if err != nil {
     return nil, err
   }
