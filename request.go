@@ -4,6 +4,7 @@ package bart
 import (
   "net/http"
   "io/ioutil"
+  "strings"
 )
 
 func GetDataFromUri(uri string) ([]byte, error) {
@@ -18,5 +19,10 @@ func GetDataFromUri(uri string) ([]byte, error) {
 		return nil, err
 	}
 
-  return body, nil
+  //******this is a hack***********
+  // i am tricking the parser to think that the
+  // iso-8859-1 is utf-8
+  str := string(body)
+  str = strings.Replace(str, "iso-8859-1", "utf-8", -1)
+  return []byte(str), nil
 }
