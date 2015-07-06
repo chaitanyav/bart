@@ -6,15 +6,14 @@ import (
 )
 
 type Message struct {
-	Legend  string `xml:"link"`
-	Text    string `xml:"error"`
-	Details string `xml:"details"`
+	ErrorText    string `xml:"message>error>text"`
+	ErrorDetails string `xml:"message>error>details"`
 }
 
 type Root struct {
 	Uri      string    `xml:"uri"`
 	Stations []Station `xml:"stations>station"`
-	Message  `xml:"message"`
+	Message
 }
 
 func (root *Root) String() string {
@@ -47,5 +46,8 @@ func GetStations() (*Root, error) {
 		return nil, err
 	}
 
+	if data.ErrorText != "" && data.ErrorDetails != "" {
+		return nil, fmt.Errorf("Error: %s, %s", data.ErrorText, data.ErrorDetails)
+	}
 	return data, nil
 }

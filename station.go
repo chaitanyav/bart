@@ -57,18 +57,23 @@ func GetStationInfo(stationCode string) (*StationInfo, error) {
 	}
 
 	stationInfo := new(StationInfo)
-	station := data.Stations[0]
-	stationInfo.NorthRoutes = station.NorthRoutes
-	stationInfo.SouthRoutes = station.SouthRoutes
-	stationInfo.NorthPlatforms = station.NorthPlatforms
-	stationInfo.SouthPlatforms = station.SouthPlatforms
-	stationInfo.PlatformInfo = station.PlatformInfo
-	stationInfo.Intro = station.Intro
-	stationInfo.CrossStreet = station.CrossStreet
-	stationInfo.Food = station.Food
-	stationInfo.Shopping = station.Shopping
-	stationInfo.Attractions = station.Attractions
-	stationInfo.Link = station.Link
+
+	if len(data.Stations) >= 1 {
+		station := data.Stations[0]
+		stationInfo.NorthRoutes = station.NorthRoutes
+		stationInfo.SouthRoutes = station.SouthRoutes
+		stationInfo.NorthPlatforms = station.NorthPlatforms
+		stationInfo.SouthPlatforms = station.SouthPlatforms
+		stationInfo.PlatformInfo = station.PlatformInfo
+		stationInfo.Intro = station.Intro
+		stationInfo.CrossStreet = station.CrossStreet
+		stationInfo.Food = station.Food
+		stationInfo.Shopping = station.Shopping
+		stationInfo.Attractions = station.Attractions
+		stationInfo.Link = station.Link
+	} else {
+		return nil, fmt.Errorf("Error: %s, %s", data.ErrorText, data.ErrorDetails)
+	}
 
 	return stationInfo, nil
 }
@@ -86,14 +91,19 @@ func GetStationAccessInfo(stationCode string) (*StationAccess, error) {
 	}
 
 	stationAccess := new(StationAccess)
-	station := data.Stations[0]
-	stationAccess.Entering = station.Entering
-	stationAccess.Exiting = station.Exiting
-	stationAccess.Parking = station.Parking
-	stationAccess.FillTime = station.FillTime
-	stationAccess.CarShare = station.CarShare
-	stationAccess.Lockers = station.Lockers
-	stationAccess.Destinations = station.Destinations
-	stationAccess.TransitInfo = station.TransitInfo
+	if len(data.Stations) >= 1 {
+		station := data.Stations[0]
+		stationAccess.Entering = station.Entering
+		stationAccess.Exiting = station.Exiting
+		stationAccess.Parking = station.Parking
+		stationAccess.FillTime = station.FillTime
+		stationAccess.CarShare = station.CarShare
+		stationAccess.Lockers = station.Lockers
+		stationAccess.Destinations = station.Destinations
+		stationAccess.TransitInfo = station.TransitInfo
+	} else {
+		return nil, fmt.Errorf("Error: %s, %s", data.ErrorText, data.ErrorDetails)
+	}
+
 	return stationAccess, nil
 }

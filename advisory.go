@@ -2,6 +2,7 @@ package bart
 
 import (
 	"encoding/xml"
+	"fmt"
 )
 
 type Count struct {
@@ -9,6 +10,7 @@ type Count struct {
 	Date      string `xml:"date"`
 	Time      string `xml:"time"`
 	NumTrains int    `xml:"traincount"`
+	Message
 }
 
 type Elevator struct {
@@ -17,6 +19,7 @@ type Elevator struct {
 	Time        string `xml:"time"`
 	Posted      string `xml:"bsa>posted"`
 	Description string `xml:"bsa>description"`
+	Message
 }
 
 type BSA struct {
@@ -27,6 +30,7 @@ type BSA struct {
 	Posted      string `xml:"bsa>posted"`
 	Description string `xml:"bsa>description"`
 	Expires     string `xml:"bsa>expires"`
+	Message
 }
 
 func GetBSA() (*BSA, error) {
@@ -40,6 +44,11 @@ func GetBSA() (*BSA, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	if bsa.ErrorText != "" && bsa.ErrorDetails != "" {
+		return nil, fmt.Errorf("Error: %s, %s", bsa.ErrorText, bsa.ErrorDetails)
+	}
+
 	return bsa, nil
 }
 
@@ -54,6 +63,11 @@ func GetElevatorStatus() (*Elevator, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	if elevator.ErrorText != "" && elevator.ErrorDetails != "" {
+		return nil, fmt.Errorf("Error: %s, %s", elevator.ErrorText, elevator.ErrorDetails)
+	}
+
 	return elevator, nil
 }
 
@@ -69,5 +83,10 @@ func GetActiveTrainCount() (*Count, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	if count.ErrorText != "" && count.ErrorDetails != "" {
+		return nil, fmt.Errorf("Error: %s, %s", count.ErrorText, count.ErrorDetails)
+	}
+
 	return count, nil
 }
